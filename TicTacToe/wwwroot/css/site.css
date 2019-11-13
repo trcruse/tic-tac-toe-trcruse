@@ -19,6 +19,44 @@ body {
 }
 
 
+
+.grid {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.board {
+    display: inline;
+}
+
+.grid > .row:nth-child(2) {
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.grid > .row > .cell:nth-child(2) {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    font-size: 90px;
+    text-align: center;
+}
+
+
+
+
+
+
+
 .square {
     border: 1px solid black;
     width: 100px;
