@@ -2,66 +2,39 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your Javascript code.
+var squares = document.querySelectorAll("#checkers-board > .square");
 
-var currentTurn = "X";
-
-document.getElementById("turn").innerText = "It is player " + currentTurn + "'s turn";
-
-`It is player ${currentTurn}'s turn`
-
-
-var squares = document.getElementByClassName("square");
 for (var i = 0; i < squares.length; i++)
 {
-    squares[i].addEventListener('click', onClick);
+    squares[i].addEventListener('dragenter', onDragEnter);
+    squares[i].addEventListener('dragleave', onDragLeave);
+    squares[i].addEventListener('dragstart', onDragStart);
+    squares[i].addEventListener('dragend', onDragEnd);
 }
 
-
-
-function onClick(event)
+function onDragEnter(event)
 {
-    event.preventDefault();
-    if (!event.target.innerText)
-    {
-        event.target.innerHTML = currentTurn;
-        if (!checkForWin()) return nextTurn();
-    }
+    if (event.target.classList.contains("checker")) return;
+    if (event.target.classList.contains("red")) return;
+    if (event.target.children.length > 0) return;
+    event.target.style.backgroundColor = "gold";
+    document.getElementById("toX").value = event.target.dataset.x;
+    document.getElementById("toY").value = event.target.dataset.y;
 }
 
-function nextTurn()
+function onDragLeave(event)
 {
-    currentTurn = (currentTurn === "X") ? "O" : "X";
-    document.getElementById("turn").innerText = "It is player " + currentTurn + "'s turn";
+    event.target.style.backgroundColor = null;
 }
 
-function declareWinner()
+function onDragStart(event)
 {
-    document.getElementById("turn").innerText = "Player " + currentTurn + " wins!";
-    currentTurn = "";
+    document.getElementById("fromX").value = event.target.dataset.x;
+    document.getElementById("fromY").value = event.target.dataset.y;
 }
 
-function checkForWin()
+function onDragEnd(event)
 {
-    //Check for rows
-    for (var i = 0; i < 9; i += 3)
-    {
-        if (squares[i].innerText  && squares[i].innerText === squares[i+1].innterText && squares[1].innerText === squares[2].innerText)
-        {
-            declareWinner();
-            return true;
-        }
-    }
+    document.getElementById("checkers-form").submit();
 
-    //Check for columns
-    for (var j = 0; j < 3; j += 1) {
-        if (squares[j].innerText === squares[j].innerText && squares[j + 3].innerText == squares[j + 6].innerText)
-        {
-            declareWinner();
-            return true;
-        }
-    }
-
-    // Check for diagonals
-    return false;
 }
-
